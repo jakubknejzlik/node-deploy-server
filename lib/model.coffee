@@ -75,7 +75,9 @@ class Model
   deleteApplication:(appNameOrID,callback)->
     application = null
     @ensureStorage().then(()->
-      orStatement = [{name:appNameOrID}]
+      orStatement = []
+      if validator.isString(appNameOrID)
+        orStatement.push({name:appNameOrID})
       if validator.isInt(appNameOrID)
         orStatement.push({id:appNameOrID})
       return Application.findOne({where:{$or:orStatement}}).then((app)->
@@ -97,7 +99,9 @@ class Model
 
   getApplication:(appNameOrID,callback)->
     @ensureStorage().then(()->
-      orStatement = [{name:appNameOrID}]
+      orStatement = []
+      if validator.isString(appNameOrID)
+        orStatement.push({name:appNameOrID})
       if validator.isInt(appNameOrID)
         orStatement.push({id:appNameOrID})
       return Application.findOne({where:{$or:orStatement}}).then((app)=>
@@ -134,7 +138,9 @@ class Model
   removeDomainFromApplication:(appNameOrID,domainOrId,callback)->
     @getApplication(appNameOrID,(err,application)->
       return callback(err) if err
-      orStatement = [{name:domainOrId}]
+      orStatement = []
+      if validator.isString(domainOrId)
+        orStatement.push({name:domainOrId})
       if validator.isInt(domainOrId)
         orStatement.push({id:domainOrId})
       application.getDomains({where:{$or:orStatement}}).then((domains)->
