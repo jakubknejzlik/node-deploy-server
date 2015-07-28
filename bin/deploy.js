@@ -266,7 +266,7 @@ program.command('domains:remove <application> <domain>')
 
 program.command('config <application>')
     .description('set application config')
-    .action(function(application,configs){
+    .action(function(application){
         getModel().getApplication(application,function(err,application){
             if(err)return printError(err)
             var config = application.config;

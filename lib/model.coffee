@@ -74,7 +74,7 @@ class Model
   deleteApplication:(appNameOrID,callback)->
     application = null
     @ensureStorage().then(()->
-      return Application.findOne({where:{$or:[{name:appNameOrID},{id:appNameOrID}]}}).then((app)->
+      return Application.findOne({where:{$or:[{name:appNameOrID},{id:appNameOrID*1}]}}).then((app)->
         application = app
         if not app
           throw new Error('application ' + appNameOrID + ' not found')
@@ -93,7 +93,7 @@ class Model
 
   getApplication:(appNameOrID,callback)->
     @ensureStorage().then(()->
-      return Application.findOne({where:{$or:[{name:appNameOrID},{id:appNameOrID}]}}).then((app)=>
+      return Application.findOne({where:{$or:[{name:appNameOrID},{id:appNameOrID*1}]}}).then((app)=>
         return callback(new Error('app ' + appNameOrID + ' not found')) if not app
         callback(null,app)
       ).catch(callback)
@@ -127,7 +127,7 @@ class Model
   removeDomainFromApplication:(appNameOrID,domainOrId,callback)->
     @getApplication(appNameOrID,(err,application)->
       return callback(err) if err
-      application.getDomains({where:{$or:[{name:domainOrId},{id:domainOrId}]}}).then((domains)->
+      application.getDomains({where:{$or:[{name:domainOrId},{id:domainOrId*1}]}}).then((domains)->
         return callback(new Error('domain ' + domainOrId + ' not found')) if domains.length is 0
         domain = domains[0]
         domain.destroy().then(()->
