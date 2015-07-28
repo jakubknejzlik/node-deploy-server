@@ -1,8 +1,8 @@
 {
   "name": "deploy-server",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "Deploy NodeJS scripts with single push. This library is inspired by heroku principles.",
-  "homepage":"https://github.com/jakubknejzlik/node-deploy-server",
+  "homepage": "https://github.com/jakubknejzlik/node-deploy-server",
   "repository": {
     "type": "git",
     "url": "git@github.com:jakubknejzlik/node-deploy-server.git"
