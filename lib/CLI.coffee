@@ -119,7 +119,8 @@ class CLI
         if cmd.indexOf('node ') is 0
           processName = application.name + ': ' + procName
           filepath = path.join(buildsPath,application.name,cmd.replace('node ',''))
-          options = {}
+          options = {env:JSON.parse(JSON.stringify(application.config))}
+          options.env.NODE_ENV = 'production'
           if procName is 'web'
             model.portForApplication(application.name,(err,port)=>
               options.port = port

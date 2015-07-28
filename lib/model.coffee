@@ -15,6 +15,15 @@ Application = db.define('Application',{
   name:{
     type:Sequelize.STRING,
     unique:yes
+  },
+  config:{
+    type:Sequelize.TEXT('medium')
+    get:(()->
+      return JSON.parse(@getDataValue('config')) or {}
+    )
+    set:((value)->
+      @setDataValue('config',JSON.stringify(value))
+    )
   }
 })
 

@@ -264,6 +264,55 @@ program.command('domains:remove <application> <domain>')
     })
 
 
+program.command('config <application>')
+    .description('set application config')
+    .action(function(application,configs){
+        getModel().getApplication(application,function(err,application){
+            if(err)return printError(err)
+            var config = application.config;
+            if(Object.keys(config).length == 0)console.log('no config')
+            for(var key in config){
+                console.log(key + '=' + config[key])
+            }
+        })
+    })
+program.command('config:set <application> [keys...]')
+    .description('set application config')
+    .action(function(application,configs){
+        getModel().getApplication(application,function(err,application){
+            if(err)return printError(err)
+            var config = application.config
+
+            configs.forEach(function(c){
+                var values = c.split('=');
+                config[values[0]] = values[1];
+            })
+
+            application.config = config
+            application.save().then(function(){
+                console.log('updated')
+            }).catch(printError)
+        })
+    })
+program.command('config:unset <application> [keys...]')
+    .description('set application config')
+    .action(function(application,configs){
+        getModel().getApplication(application,function(err,application){
+            if(err)return printError(err)
+            var config = application.config
+
+            configs.forEach(function(c){
+                delete config[c];
+            })
+
+            application.config = config
+            application.save().then(function(){
+                console.log('updated')
+            }).catch(printError)
+        })
+    })
+
+
 program.command('users')
     .description('list all users')
     .action(function(){

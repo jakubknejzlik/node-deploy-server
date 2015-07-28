@@ -40,22 +40,3 @@ app.listen(port,(err)->
     return console.error(port,err)
   console.log('listening on',port)
 )
-return
-
-
-
-
-
-
-http = require('http')
-server = http.createServer((req,res,next)->
-  basic(req,res)
-,(req, res)->
-  repos.handle(req, res)
-)
-port = process.env.PORT or 5000
-server.listen(port,(err)->
-  if err
-    return console.error(port,err)
-  console.log('listening on',port)
-)
