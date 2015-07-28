@@ -6,6 +6,7 @@ logger = require('./logger')
 config = require('./config')
 md5 = require('md5')
 validator = require('validator')
+async = require('async')
 
 storagePath = expandHomeDir(config.DATABASE_PATH)
 
@@ -119,8 +120,15 @@ class Model
 
 
   getApplicationForHostname:(hostname,callback)->
-    Domain.findOne({where:{name:hostname}}).then((domain)->
-      return callback(new Error('no application found')) if not domain
+    Domain.findAll({order:[[Sequelize.fn('length',Sequelize.col('name')),'DESC']]}).then((domains)->
+      domain = null
+      for dom in domains
+        regexp = new RegExp(dom.name.replace(/\./,'\\.').replace(/\*/,'.*').replace(/\?/,'.'),'i')
+        if regexp.test(hostname)
+          domain = dom
+          break
+
+      return callback(new Error('no application found for domain ' + domain)) if not domain
       domain.getApplication().then((app)->
         callback(null,app)
       ).catch(callback)
