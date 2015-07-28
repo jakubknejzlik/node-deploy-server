@@ -76,7 +76,7 @@ class Model
     application = null
     @ensureStorage().then(()->
       orStatement = []
-      if validator.isString(appNameOrID)
+      if typeof appNameOrID isnt 'string'
         orStatement.push({name:appNameOrID})
       if validator.isInt(appNameOrID)
         orStatement.push({id:appNameOrID})
@@ -100,7 +100,7 @@ class Model
   getApplication:(appNameOrID,callback)->
     @ensureStorage().then(()->
       orStatement = []
-      if validator.isString(appNameOrID)
+      if typeof appNameOrID isnt 'string'
         orStatement.push({name:appNameOrID})
       if validator.isInt(appNameOrID)
         orStatement.push({id:appNameOrID})
@@ -139,7 +139,7 @@ class Model
     @getApplication(appNameOrID,(err,application)->
       return callback(err) if err
       orStatement = []
-      if validator.isString(domainOrId)
+      if typeof domainOrId isnt 'string'
         orStatement.push({name:domainOrId})
       if validator.isInt(domainOrId)
         orStatement.push({id:domainOrId})
